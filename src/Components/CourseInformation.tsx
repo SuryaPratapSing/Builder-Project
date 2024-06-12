@@ -13,6 +13,8 @@ import {
 import InfoIcon from "@mui/icons-material/Info";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import StarRateIcon from '@mui/icons-material/StarRate';
+import ImageIcon from "@mui/icons-material/Image";
+
 
 interface State {
   courseName: string;
@@ -25,6 +27,8 @@ interface State {
   certificate: string;
   isActive: boolean;
   description: string;
+  imageSrc: string | null;
+
 }
 
 class CourseInformation extends Component<{}, State> {
@@ -39,6 +43,18 @@ class CourseInformation extends Component<{}, State> {
     certificate: "WSET",
     isActive: true,
     description: "",
+    imageSrc: null,
+  };
+
+  handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.setState({ imageSrc: e.target?.result as string });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   handleChange = (
@@ -218,18 +234,49 @@ class CourseInformation extends Component<{}, State> {
             }}
           ></Box>
           <Box sx={{ width: "50%" }}>
-            <Box
-              sx={{
-                marginTop: "20px",
-                height: "6rem",
-                border: "1px solid #e0e0e0",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Input type="file" sx={{border:'none',outline:'none',marginLeft:'15px'}}/>
-            </Box>
-
+          <Box
+                sx={{
+                  marginTop: "20px",
+                  height: "6rem",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
+                }}
+              >
+                {this.state.imageSrc ? (
+                  <img
+                    style={{
+                      height: "100px",
+                      width: "150px",
+                      objectFit: "cover",
+                      border: "1px dotted #e0e0e0",
+                      borderRadius: "20px",
+                    }}
+                    src={this.state.imageSrc}
+                    alt=""
+                  />
+                ) : (
+                  <ImageIcon
+                    style={{
+                      height: "100px",
+                      width: "150px",
+                      border: "1px dotted #e0e0e0",
+                      borderRadius: "20px",
+                      color: "#e0e0e0",
+                    }}
+                  />
+                )}
+                <Box>
+                  <Typography variant="h6">Overview Picture</Typography>
+                  <Typography sx={{ fontSize: "10px" }}>
+                    Minimal resolution: 343x193px
+                  </Typography>
+                  <Typography sx={{ fontSize: "10px" }}>
+                    Maximum size: 5mb
+                  </Typography>
+                  <Input type="file" onChange={this.handleImageChange} />
+                </Box>
+              </Box>
             <TextField
               fullWidth
               margin="normal"
