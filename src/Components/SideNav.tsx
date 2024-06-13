@@ -1,28 +1,28 @@
 import React, { Component } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
+interface Theme {
+  title: string;
+  lessons: number[];
+}
+
+interface Props {
+  themes: Theme[];
+  addNewTheme: () => void;
+}
+
 interface State {
   openTheme: number | null;
   openLessons: number[];
-  themes: { title: string, lessons: number[] }[];
-  mockExams: { title: string, lessons: number[] }[];
 }
 
-class SideNav extends Component<{}, State> {
+class SideNav extends Component<Props, State> {
   state: State = {
     openTheme: null,
     openLessons: [],
-    themes: [
-      { title: "Theme 1", lessons: [1, 2, 3, 4] },
-      { title: "Theme 2", lessons: [1, 2, 3, 4] },
-      { title: "Theme 3", lessons: [1, 2, 3, 4] }
-    ],
-    mockExams: [
-      { title: "Mock Exam 1", lessons: [1, 2, 3, 4] }
-    ]
   };
 
   toggleTheme = (themeIndex: number) => {
@@ -36,18 +36,6 @@ class SideNav extends Component<{}, State> {
       openLessons: prevState.openLessons.includes(lesson)
         ? prevState.openLessons.filter((l) => l !== lesson)
         : [...prevState.openLessons, lesson],
-    }));
-  };
-
-  addNewTheme = () => {
-    this.setState((prevState) => ({
-      themes: [...prevState.themes, { title: `Theme ${prevState.themes.length + 1}`, lessons: [] }]
-    }));
-  };
-
-  addNewMockExam = () => {
-    this.setState((prevState) => ({
-      mockExams: [...prevState.mockExams, { title: `Mock Exam ${prevState.mockExams.length + 1}`, lessons: [] }]
     }));
   };
 
@@ -122,11 +110,11 @@ class SideNav extends Component<{}, State> {
   }
 
   render() {
-    const { themes, mockExams } = this.state;
+    const { themes, addNewTheme } = this.props;
 
     return (
       <Box
-        sx={{ borderRight: "1px solid #e0e0e0", width: "15vw", paddingLeft: "15px", height: "87vh",background:'white',zIndex:'9999999' }}
+        sx={{ borderRight: "1px solid #e0e0e0", width: "15vw", paddingLeft: "15px", height: "87vh", background: 'white', zIndex: '9999999',position:'fixed',top:'12.1vh' }}
       >
         <Typography variant="h6" sx={{ fontWeight: "600", fontSize: "16px" }}>
           Course
@@ -136,7 +124,6 @@ class SideNav extends Component<{}, State> {
         </Typography>
 
         {themes.map((theme, index) => this.renderTheme(index + 1, theme.title, theme.lessons))}
-        {mockExams.map((mockExam, index) => this.renderTheme(themes.length + index + 1, mockExam.title, mockExam.lessons))}
 
         <Box sx={{ display: 'flex', gap: '5px', marginTop: '1rem' }}>
           <button
@@ -150,12 +137,10 @@ class SideNav extends Component<{}, State> {
               alignItems: 'center',
               cursor: 'pointer'
             }}
-            onClick={this.addNewTheme}
+            onClick={addNewTheme}
           >
             <AddCircleOutlineIcon sx={{ fontSize: '18px' }} /> New Theme
           </button>
-
-          
         </Box>
       </Box>
     );

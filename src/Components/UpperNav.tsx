@@ -9,7 +9,7 @@ class UpperNav extends Component {
 
   render() {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 2, borderBottom: '1px solid #e0e0e0',background:'white' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 2, borderBottom: '1px solid #e0e0e0',background:'white',position:'fixed',left:'0px',right:'0px',zIndex:'99999999' }}>
         <Box>
           <Breadcrumbs aria-label="breadcrumb">
             <Link underline="hover" color="inherit" href="/">

@@ -11,7 +11,6 @@ import React, { Component } from "react";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ImageIcon from "@mui/icons-material/Image";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import MUIRichTextEditor from "mui-rte";
 
@@ -247,23 +246,7 @@ class Lesson extends Component<{}, State> {
           </Box>
         </Box>
 
-        <Box sx={{ marginTop: "3vh" }}>
-          <button
-            style={{
-              border: "1px solid #e0e0e0",
-              background: "white",
-              color: "black",
-              padding: "5px 10px",
-              borderRadius: "20px",
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-            onClick={this.handleDelete}
-          >
-            <AddCircleOutlineIcon sx={{ fontSize: "18px" }} /> Add Lesson
-          </button>
-        </Box>
+        
       </>
     );
   }
