@@ -114,7 +114,11 @@ class SideNav extends Component<Props, State> {
 
     return (
       <Box
-        sx={{ borderRight: "1px solid #e0e0e0", width: "15vw", paddingLeft: "15px", height: "87vh", background: 'white', zIndex: '9999999',position:'fixed',top:'12.1vh' }}
+        sx={{ borderRight: "1px solid #e0e0e0", width: "15vw", paddingLeft: "15px", height: "87vh", background: 'white', zIndex: '9999999',position:'fixed',top:'12.1vh',
+      display:{
+        xs:'none',
+        lg:'block'
+      } }}
       >
         <Typography variant="h6" sx={{ fontWeight: "600", fontSize: "16px" }}>
           Course

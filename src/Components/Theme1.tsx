@@ -8,11 +8,11 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import StarRateIcon from '@mui/icons-material/StarRate';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ImageIcon from '@mui/icons-material/Image';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import Lesson from './Lesson'; // Make sure to import the Lesson component
+import StarRateIcon from "@mui/icons-material/StarRate";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ImageIcon from "@mui/icons-material/Image";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import Lesson from "./Lesson"; // Make sure to import the Lesson component
 
 interface Props {
   title: string;
@@ -34,6 +34,7 @@ interface State {
   isVisible: boolean;
   nestedThemes: JSX.Element[];
   lessons: JSX.Element[];
+  inputValues: any[]; // Array to store input values
 }
 
 class Theme1 extends Component<Props, State> {
@@ -52,6 +53,7 @@ class Theme1 extends Component<Props, State> {
     isVisible: true,
     nestedThemes: [],
     lessons: [],
+    inputValues: [], // Initialize the array
   };
 
   state: State = { ...this.initialState };
@@ -67,11 +69,12 @@ class Theme1 extends Component<Props, State> {
     }
   };
 
-  handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    this.setState({ [name]: value } as unknown as Pick<State, keyof State>);
+    this.setState({ [name]: value } as unknown as Pick<State, keyof State>, () => {
+      // Update the array and print to console
+      this.updateInputValuesArray(name, value);
+    });
   };
 
   handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +87,14 @@ class Theme1 extends Component<Props, State> {
 
   addNewTheme = () => {
     this.setState((prevState) => ({
-      nestedThemes: [...prevState.nestedThemes, <Theme1 key={prevState.nestedThemes.length} title={`Theme ${prevState.nestedThemes.length + 1}`} lessons={[]} />],
+      nestedThemes: [
+        ...prevState.nestedThemes,
+        <Theme1
+          key={prevState.nestedThemes.length}
+          title={`Theme ${prevState.nestedThemes.length + 1}`}
+          lessons={[]}
+        />,
+      ],
     }));
   };
 
@@ -92,6 +102,20 @@ class Theme1 extends Component<Props, State> {
     this.setState((prevState) => ({
       lessons: [...prevState.lessons, <Lesson key={prevState.lessons.length} />],
     }));
+  };
+
+  updateInputValuesArray = (name: string, value: string) => {
+    this.setState((prevState) => {
+      const updatedValues = [...prevState.inputValues];
+      const index = updatedValues.findIndex((item) => item.name === name);
+      if (index !== -1) {
+        updatedValues[index].value = value;
+      } else {
+        updatedValues.push({ name, value });
+      }
+      console.log("Input Values Array:", updatedValues);
+      return { inputValues: updatedValues };
+    });
   };
 
   render() {
@@ -150,8 +174,14 @@ class Theme1 extends Component<Props, State> {
             </Box>
           </Box>
 
-          <Box sx={{ display: "flex", gap: "20px" }}>
-            <Box sx={{ width: "50%" }}>
+          <Box sx={{ display: 
+            {
+              lg:'flex'
+            }, gap: "20px" }}>
+            <Box sx={{ width:{
+              xs:'100%',
+              lg:'50%'
+            } }}>
               <TextField
                 fullWidth
                 margin="normal"
@@ -206,9 +236,16 @@ class Theme1 extends Component<Props, State> {
                 height: "29vh",
                 background: "#e0e0e0",
                 marginTop: "1rem",
+                display:{
+                  xs:'none',
+                  lg:'block'
+                }
               }}
             ></Box>
-            <Box sx={{ width: "50%" }}>
+            <Box sx={{ width:{
+              xs:'100%',
+              lg:'50%'
+            } }}>
               <Box
                 sx={{
                   marginTop: "20px",
@@ -221,7 +258,7 @@ class Theme1 extends Component<Props, State> {
                 {this.state.imageSrc ? (
                   <img style={{ height: '100px', width: '150px', objectFit: 'cover', border: "1px dotted #e0e0e0", borderRadius: '20px' }} src={this.state.imageSrc} alt="" />
                 ) : (
-                  <ImageIcon style={{ height: '100px', width: '150px', border: "1px dotted #e0e0e0", borderRadius: '20px', color: '#e0e0e0' }} />
+                  <ImageIcon style={{ height: '100px', width: '150px', border: "1px dashed #e0e0e0", borderRadius: '20px', color: '#e0e0e0' }} />
                 )}
                 <Box>
                   <Typography variant="h6">Overview Picture</Typography>

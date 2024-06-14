@@ -1,3 +1,4 @@
+import React, { Component } from "react";
 import {
   Box,
   IconButton,
@@ -7,7 +8,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { Component } from "react";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ImageIcon from "@mui/icons-material/Image";
@@ -31,6 +31,7 @@ interface State {
   description: string;
   imageSrc: string | null;
   isVisible: boolean;
+  inputValues: any[]; // Array to store input values
 }
 
 class Lesson extends Component<{}, State> {
@@ -47,10 +48,10 @@ class Lesson extends Component<{}, State> {
     description: "",
     imageSrc: null,
     isVisible: true,
+    inputValues: [], // Initialize the array
   };
 
   state: State = { ...this.initialState };
-
 
   handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;
@@ -63,11 +64,12 @@ class Lesson extends Component<{}, State> {
     }
   };
 
-  handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    this.setState({ [name]: value } as unknown as Pick<State, keyof State>);
+    this.setState({ [name]: value } as unknown as Pick<State, keyof State>, () => {
+      // Update the array and print to console
+      this.updateInputValuesArray(name, value);
+    });
   };
 
   handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,6 +78,20 @@ class Lesson extends Component<{}, State> {
 
   handleDelete = () => {
     this.setState({ isVisible: false });
+  };
+
+  updateInputValuesArray = (name: string, value: string) => {
+    this.setState((prevState) => {
+      const updatedValues = [...prevState.inputValues];
+      const index = updatedValues.findIndex((item) => item.name === name);
+      if (index !== -1) {
+        updatedValues[index].value = value;
+      } else {
+        updatedValues.push({ name, value });
+      }
+      console.log("Input Values Array:", updatedValues);
+      return { inputValues: updatedValues };
+    });
   };
 
   render() {
@@ -89,7 +105,7 @@ class Lesson extends Component<{}, State> {
           p={3}
           mx="auto"
           sx={{
-            width: "77vw",
+            width: "75vw",
             margin: "auto",
             border: "1px solid #e0e0e0",
             borderRadius: "20px",
@@ -136,8 +152,17 @@ class Lesson extends Component<{}, State> {
             </Box>
           </Box>
 
-          <Box sx={{ display: "flex", gap: "20px" }}>
-            <Box sx={{ width: "50%" }}>
+          <Box sx={{ display: 
+            
+            {
+              
+              lg:'flex'
+            }, gap: "20px" }}>
+            <Box sx={{ width:
+            {
+              xs:'100%',
+              lg:'50%'
+            } }}>
               <TextField
                 fullWidth
                 margin="normal"
@@ -212,7 +237,7 @@ class Lesson extends Component<{}, State> {
                     style={{
                       height: "100px",
                       width: "150px",
-                      border: "1px dotted #e0e0e0",
+                      border: "1px dashed #e0e0e0",
                       borderRadius: "20px",
                       color: "#e0e0e0",
                     }}
@@ -236,17 +261,23 @@ class Lesson extends Component<{}, State> {
                 height: "44vh",
                 background: "#e0e0e0",
                 marginTop: "1rem",
+                display:{
+                  xs:'none',
+                  lg:'block'
+                }
               }}
             ></Box>
-            <Box sx={{ width: "50%" }}>
+            <Box sx={{ width:
+            {
+              xs:'100%',
+              lg:'50%'
+            } }}>
               <ThemeProvider theme={myTheme}>
                 <MUIRichTextEditor label="Start typing..." />
               </ThemeProvider>
             </Box>
           </Box>
         </Box>
-
-        
       </>
     );
   }

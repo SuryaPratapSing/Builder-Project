@@ -11,10 +11,9 @@ import {
   Input,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import StarRateIcon from '@mui/icons-material/StarRate';
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import StarRateIcon from "@mui/icons-material/StarRate";
 import ImageIcon from "@mui/icons-material/Image";
-
 
 interface State {
   courseName: string;
@@ -28,7 +27,7 @@ interface State {
   isActive: boolean;
   description: string;
   imageSrc: string | null;
-
+  formDataArray: any[];
 }
 
 class CourseInformation extends Component<{}, State> {
@@ -44,6 +43,7 @@ class CourseInformation extends Component<{}, State> {
     isActive: true,
     description: "",
     imageSrc: null,
+    formDataArray: [],
   };
 
   handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +61,16 @@ class CourseInformation extends Component<{}, State> {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    // this.setState({ [name]: value } as Pick<State, keyof State>);
+    this.setState(
+      (prevState) => {
+        const updatedState = { ...prevState, [name]: value };
+        const formDataArray = [...prevState.formDataArray, updatedState];
+        return { ...updatedState, formDataArray };
+      },
+      () => {
+        console.log(this.state.formDataArray);
+      }
+    );
   };
 
   handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,42 +98,76 @@ class CourseInformation extends Component<{}, State> {
             paddingBottom: "10px",
           }}
         >
-          <Typography variant="h5" gutterBottom>
+          <Typography
+            gutterBottom
+            sx={{
+              fontSize: {
+                sx: "8px",
+                lg: "22px",
+              },
+            }}
+          >
             Course Information
           </Typography>
 
-          <Box sx={{display:'flex',alignItems:'center ', gap:'15px'}}>
-          <Typography variant="subtitle1" gutterBottom sx={{display:'flex',alignItems:'center',gap:'5px'}}>
-           <StarRateIcon sx={{fontSize:'18px'}}/> 10 pts
-          </Typography>
+          <Box sx={{ display:
+            {
+              xs:'none',
+              lg:'flex'
+            }, alignItems: "center ", gap: "15px" }}>
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              sx={{ display: "flex", alignItems: "center", gap: "5px" }}
+            >
+              <StarRateIcon sx={{ fontSize: "18px" }} /> 10 pts
+            </Typography>
 
-          <Typography variant="subtitle1" gutterBottom>
-            |
-          </Typography>
+            <Typography variant="subtitle1" gutterBottom>
+              |
+            </Typography>
 
-          <Typography variant="subtitle1" gutterBottom sx={{display:'flex',alignItems:'center',gap:'5px'}}>
-           <AccessTimeIcon sx={{fontSize:'18px'}}/>  24h 30m
-          </Typography>
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              sx={{ display: "flex", alignItems: "center", gap: "5px" }}
+            >
+              <AccessTimeIcon sx={{ fontSize: "18px" }} /> 24h 30m
+            </Typography>
 
-          <Typography variant="subtitle1" gutterBottom>
-            |
-          </Typography>
+            <Typography variant="subtitle1" gutterBottom>
+              |
+            </Typography>
 
-          <FormControlLabel
-            control={
-              <Switch
-                checked={this.state.isActive}
-                onChange={this.handleSwitchChange}
-                color="primary"
-              />
-            }
-            label="Active"
-          />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={this.state.isActive}
+                  onChange={this.handleSwitchChange}
+                  color="primary"
+                />
+              }
+              label="Active"
+            />
           </Box>
         </Box>
 
-        <Box sx={{ display: "flex", gap: "20px" }}>
-          <Box sx={{ width: "50%" }}>
+        <Box
+          sx={{
+            display: {
+              lg: "flex",
+            },
+            gap: "20px",
+          }}
+        >
+          <Box
+            sx={{
+              width: {
+                xs: "100%",
+                lg: "50%",
+              },
+            }}
+          >
             <TextField
               fullWidth
               margin="normal"
@@ -231,52 +274,63 @@ class CourseInformation extends Component<{}, State> {
               height: "48.5vh",
               background: "#e0e0e0",
               marginTop: "1rem",
+              display: {
+                xs: "none",
+                lg: "block",
+              },
             }}
           ></Box>
-          <Box sx={{ width: "50%" }}>
           <Box
-                sx={{
-                  marginTop: "20px",
-                  height: "6rem",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "15px",
-                }}
-              >
-                {this.state.imageSrc ? (
-                  <img
-                    style={{
-                      height: "100px",
-                      width: "150px",
-                      objectFit: "cover",
-                      border: "1px dotted #e0e0e0",
-                      borderRadius: "20px",
-                    }}
-                    src={this.state.imageSrc}
-                    alt=""
-                  />
-                ) : (
-                  <ImageIcon
-                    style={{
-                      height: "100px",
-                      width: "150px",
-                      border: "1px dotted #e0e0e0",
-                      borderRadius: "20px",
-                      color: "#e0e0e0",
-                    }}
-                  />
-                )}
-                <Box>
-                  <Typography variant="h6">Overview Picture</Typography>
-                  <Typography sx={{ fontSize: "10px" }}>
-                    Minimal resolution: 343x193px
-                  </Typography>
-                  <Typography sx={{ fontSize: "10px" }}>
-                    Maximum size: 5mb
-                  </Typography>
-                  <Input type="file" onChange={this.handleImageChange} />
-                </Box>
+            sx={{
+              width: {
+                xs: "100%",
+                lg: "50%",
+              },
+            }}
+          >
+            <Box
+              sx={{
+                marginTop: "20px",
+                height: "6rem",
+                display: "flex",
+                alignItems: "center",
+                gap: "15px",
+              }}
+            >
+              {this.state.imageSrc ? (
+                <img
+                  style={{
+                    height: "100px",
+                    width: "150px",
+                    objectFit: "cover",
+                    border: "1px dotted #e0e0e0",
+                    borderRadius: "20px",
+                  }}
+                  src={this.state.imageSrc}
+                  alt=""
+                />
+              ) : (
+                <ImageIcon
+                  style={{
+                    height: "100px",
+                    width: "150px",
+                    border: "1px dashed #e0e0e0",
+                    borderRadius: "20px",
+                    color: "#e0e0e0",
+                  }}
+                />
+              )}
+              <Box>
+                <Typography variant="h6">Overview Picture</Typography>
+                <Typography sx={{ fontSize: "10px" }}>
+                  Minimal resolution: 343x193px
+                </Typography>
+                <Typography sx={{ fontSize: "10px" }}>
+                  Maximum size: 5mb
+                </Typography>
+                <Input type="file" onChange={this.handleImageChange} />
               </Box>
+            </Box>
             <TextField
               fullWidth
               margin="normal"
