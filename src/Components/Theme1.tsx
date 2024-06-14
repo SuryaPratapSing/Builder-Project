@@ -12,7 +12,7 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ImageIcon from "@mui/icons-material/Image";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Lesson from "./Lesson"; // Make sure to import the Lesson component
+import Lesson from "./Lesson";
 
 interface Props {
   title: string;
@@ -34,7 +34,7 @@ interface State {
   isVisible: boolean;
   nestedThemes: JSX.Element[];
   lessons: JSX.Element[];
-  inputValues: any[]; // Array to store input values
+  inputValues: any[];
 }
 
 class Theme1 extends Component<Props, State> {
@@ -53,7 +53,7 @@ class Theme1 extends Component<Props, State> {
     isVisible: true,
     nestedThemes: [],
     lessons: [],
-    inputValues: [], // Initialize the array
+    inputValues: [],
   };
 
   state: State = { ...this.initialState };
@@ -72,7 +72,7 @@ class Theme1 extends Component<Props, State> {
   handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     this.setState({ [name]: value } as unknown as Pick<State, keyof State>, () => {
-      // Update the array and print to console
+      
       this.updateInputValuesArray(name, value);
     });
   };

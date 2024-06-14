@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import MenuOpenTwoToneIcon from '@mui/icons-material/MenuOpenTwoTone';
 
 interface Theme {
   title: string;
@@ -17,12 +18,14 @@ interface Props {
 interface State {
   openTheme: number | null;
   openLessons: number[];
+  isNavOpen: boolean;
 }
 
 class SideNav extends Component<Props, State> {
   state: State = {
     openTheme: null,
     openLessons: [],
+    isNavOpen: true,
   };
 
   toggleTheme = (themeIndex: number) => {
@@ -36,6 +39,12 @@ class SideNav extends Component<Props, State> {
       openLessons: prevState.openLessons.includes(lesson)
         ? prevState.openLessons.filter((l) => l !== lesson)
         : [...prevState.openLessons, lesson],
+    }));
+  };
+
+  toggleNav = () => {
+    this.setState((prevState) => ({
+      isNavOpen: !prevState.isNavOpen,
     }));
   };
 
@@ -111,42 +120,89 @@ class SideNav extends Component<Props, State> {
 
   render() {
     const { themes, addNewTheme } = this.props;
+    const { isNavOpen } = this.state;
 
     return (
-      <Box
-        sx={{ borderRight: "1px solid #e0e0e0", width: "15vw", paddingLeft: "15px", height: "87vh", background: 'white', zIndex: '9999999',position:'fixed',top:'12.1vh',
-      display:{
-        xs:'none',
-        lg:'block'
-      } }}
-      >
-        <Typography variant="h6" sx={{ fontWeight: "600", fontSize: "16px" }}>
-          Course
-        </Typography>
-        <Typography variant="subtitle1" sx={{ fontSize: "14px" }}>
-          How the wine is done?
-        </Typography>
+      <>
+        <MenuOpenTwoToneIcon
+          sx={{
+            position: 'fixed',
+            left:{
+              xs: isNavOpen ? '49vw' : '0.5rem',
+              lg: isNavOpen ? '14vw' : '0.5rem',
+            },
+            top: {
+              xs:'0',
+              lg:'12.1vh',
+            },
+            fontSize: '35px',
+            background: 'white',
+            borderBottomRightRadius: isNavOpen ? '5px' : '0',
+            borderBottomLeftRadius: isNavOpen ? '0' : '5px',
+            cursor: 'pointer',
+            transition: 'left 0.3s ease',
+            zIndex: '10000000',
+          }}
+          onClick={this.toggleNav}
+        />
+        <Box
+          sx={{
+            borderRight: "1px solid #e0e0e0",
+            width:{
+              xs:isNavOpen ? "50vw" : "0",
+              lg:isNavOpen ? "15vw" : "0"
 
-        {themes.map((theme, index) => this.renderTheme(index + 1, theme.title, theme.lessons))}
+            } ,
+            paddingLeft: isNavOpen ? "15px" : "0",
+            height: {
+              xs:'100vh',
+              lg:"87vh",
 
-        <Box sx={{ display: 'flex', gap: '5px', marginTop: '1rem' }}>
-          <button
-            style={{
-              border: '1px solid #e0e0e0',
-              background: 'transparent',
-              color: 'black',
-              padding: '5px 10px',
-              borderRadius: "20px",
-              display: 'flex',
-              alignItems: 'center',
-              cursor: 'pointer'
-            }}
-            onClick={addNewTheme}
-          >
-            <AddCircleOutlineIcon sx={{ fontSize: '18px' }} /> New Theme
-          </button>
+            },
+            background: 'white',
+            zIndex: '9999999',
+            position: 'fixed',
+            top: {
+              xs:'0',
+              lg:'12.1vh',
+            },
+            overflow: 'hidden',
+            transition: 'width 0.3s ease',
+            
+          }}
+        >
+          {isNavOpen && (
+            <>
+              <Typography variant="h6" sx={{ fontWeight: "600", fontSize: "16px", marginTop: '1.5rem' }}>
+                Course
+              </Typography>
+              <Typography variant="subtitle1" sx={{ fontSize: "14px" }}>
+                How the wine is done?
+              </Typography>
+
+              {themes.map((theme, index) => this.renderTheme(index + 1, theme.title, theme.lessons))}
+
+              <Box sx={{ display: 'flex', gap: '5px', marginTop: '1rem' }}>
+                <button
+                  style={{
+                    border: '1px solid #e0e0e0',
+                    background: 'transparent',
+                    color: 'black',
+                    padding: '5px 10px',
+                    borderRadius: "20px",
+                    display: 'flex',
+                    alignItems: 'center',
+                    cursor: 'pointer'
+                  }}
+                  onClick={addNewTheme}
+                >
+                  <AddCircleOutlineIcon sx={{ fontSize: '18px' }} /> New Theme
+                </button>
+              </Box>
+            </>
+          )}
         </Box>
-      </Box>
+      </>
     );
   }
 }

@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import MUIRichTextEditor from "mui-rte";
 
 const myTheme = createTheme({
-  // Set up your custom MUI theme here
+  
 });
 
 interface State {
@@ -31,7 +31,7 @@ interface State {
   description: string;
   imageSrc: string | null;
   isVisible: boolean;
-  inputValues: any[]; // Array to store input values
+  inputValues: any[];
 }
 
 class Lesson extends Component<{}, State> {
@@ -48,7 +48,7 @@ class Lesson extends Component<{}, State> {
     description: "",
     imageSrc: null,
     isVisible: true,
-    inputValues: [], // Initialize the array
+    inputValues: [],
   };
 
   state: State = { ...this.initialState };
@@ -67,7 +67,7 @@ class Lesson extends Component<{}, State> {
   handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     this.setState({ [name]: value } as unknown as Pick<State, keyof State>, () => {
-      // Update the array and print to console
+     
       this.updateInputValuesArray(name, value);
     });
   };
