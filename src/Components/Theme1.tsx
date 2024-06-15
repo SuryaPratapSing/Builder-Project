@@ -100,7 +100,10 @@ class Theme1 extends Component<Props, State> {
 
   addNewLesson = () => {
     this.setState((prevState) => ({
-      lessons: [...prevState.lessons, <Lesson key={prevState.lessons.length} />],
+      lessons: [
+        ...prevState.lessons,
+        <Lesson key={prevState.lessons.length} title={`Lesson ${prevState.lessons.length + 1}`} />
+      ],
     }));
   };
 

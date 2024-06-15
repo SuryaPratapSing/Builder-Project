@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { Box } from "@mui/material";
 import SideNav from "./SideNav";
 import Theme1 from "./Theme1";

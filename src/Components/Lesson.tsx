@@ -14,9 +14,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import MUIRichTextEditor from "mui-rte";
 
-const myTheme = createTheme({
-  
-});
+const myTheme = createTheme({});
 
 interface State {
   courseName: string;
@@ -34,7 +32,11 @@ interface State {
   inputValues: any[];
 }
 
-class Lesson extends Component<{}, State> {
+interface Props {
+  title: string;
+}
+
+class Lesson extends Component<Props, State> {
   private initialState: State = {
     courseName: "",
     duration: "",
@@ -67,7 +69,6 @@ class Lesson extends Component<{}, State> {
   handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     this.setState({ [name]: value } as unknown as Pick<State, keyof State>, () => {
-     
       this.updateInputValuesArray(name, value);
     });
   };
@@ -95,6 +96,7 @@ class Lesson extends Component<{}, State> {
   };
 
   render() {
+    const { title } = this.props;
     if (!this.state.isVisible) {
       return null;
     }
@@ -122,7 +124,7 @@ class Lesson extends Component<{}, State> {
             }}
           >
             <Typography variant="h5" gutterBottom>
-              Lesson 1
+              {title}
             </Typography>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: "15px" }}>
