@@ -230,7 +230,7 @@ class Lesson extends Component<{}, State> {
                       borderRadius: "20px",
                     }}
                     src={this.state.imageSrc}
-                    alt=""
+                    alt="image"
                   />
                 ) : (
                   <ImageIcon

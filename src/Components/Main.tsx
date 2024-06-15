@@ -24,7 +24,7 @@ class Main extends Component<{}, State> {
     this.setState((prevState) => ({
       themes: [
         ...prevState.themes,
-        { title: `Theme ${prevState.themes.length + 1}`, lessons: [1,2] },
+        { title: `Theme ${prevState.themes.length + 1}`, lessons: [] },
       ],
     }));
   };
